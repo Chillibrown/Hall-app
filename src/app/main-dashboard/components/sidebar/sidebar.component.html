@@ -1,0 +1,16 @@
+<div [class.expanded]="isExpanded" class="sidebar bg-primary text-white d-flex flex-column">
+  <button
+    class="btn btn-primary toggle-btn d-flex align-items-center justify-content-center"
+    (click)="toggleSidebar()"
+    aria-label="Toggle Sidebar"
+  >
+    <i class="bi bi-list fs-3"></i>
+  </button>
+
+  <nav class="nav flex-column mt-4" *ngIf="isExpanded">
+    <a routerLink="manage-hall" class="nav-link text-white" routerLinkActive="active">Available Halls</a>
+    <a routerLink="hall-booking" class="nav-link text-white" routerLinkActive="active">Book Hall</a>
+    <a routerLink="booking-list" class="nav-link text-white" routerLinkActive="active">Booking List</a>
+    <a routerLink="users" class="nav-link text-white" routerLinkActive="active">User List</a>
+  </nav>
+</div>

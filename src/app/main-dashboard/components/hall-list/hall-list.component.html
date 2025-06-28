@@ -1,0 +1,147 @@
+<div class="container mt-4">
+  <h3 class="mb-4 text-primary">Hall Management</h3>
+
+  <!-- ADD / EDIT FORM -->
+  <form (ngSubmit)="saveHall()" #hallForm="ngForm" class="mb-4 needs-validation" novalidate>
+    <div class="row g-3 align-items-center">
+
+      <div class="col-md-3">
+        <label for="hallName" class="form-label">Hall Name</label>
+        <input
+          type="text"
+          id="hallName"
+          class="form-control"
+          placeholder="Enter hall name"
+          [(ngModel)]="currentHall.hallName"
+          name="hallName"
+          required
+          #hallName="ngModel"
+          [class.is-invalid]="hallName.invalid && hallName.touched"
+        />
+        <div class="invalid-feedback">
+          Hall name is required.
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <label for="location" class="form-label">Location</label>
+        <input
+          type="text"
+          id="location"
+          class="form-control"
+          placeholder="Enter location"
+          [(ngModel)]="currentHall.location"
+          name="location"
+          required
+          #location="ngModel"
+          [class.is-invalid]="location.invalid && location.touched"
+        />
+        <div class="invalid-feedback">
+          Location is required.
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <label for="capacity" class="form-label">Capacity</label>
+        <input
+          type="number"
+          id="capacity"
+          class="form-control"
+          placeholder="Capacity"
+          [(ngModel)]="currentHall.capacity"
+          name="capacity"
+          required
+          min="1"
+          #capacity="ngModel"
+          [class.is-invalid]="capacity.invalid && capacity.touched"
+        />
+        <div class="invalid-feedback">
+          Capacity must be at least 1.
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <label for="price" class="form-label">Price (TZS)</label>
+        <input
+          type="number"
+          id="price"
+          class="form-control"
+          placeholder="Price"
+          [(ngModel)]="currentHall.price"
+          name="price"
+          required
+          min="0"
+          #price="ngModel"
+          [class.is-invalid]="price.invalid && price.touched"
+        />
+        <div class="invalid-feedback">
+          Price is required and cannot be negative.
+        </div>
+      </div>
+
+      <div class="col-md-2 d-flex align-items-end">
+        <button
+          type="submit"
+          class="btn btn-primary me-2"
+          [disabled]="hallForm.invalid"
+        >
+          {{ isEditing ? 'Update Hall' : 'Add Hall' }}
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          *ngIf="isEditing"
+          (click)="cancel()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!-- HALL LIST TABLE -->
+  <div *ngIf="halls.length > 0; else noHalls">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th scope="col" style="width: 5%;">#</th>
+          <th scope="col" style="width: 30%;">Hall Name</th>
+          <th scope="col" style="width: 25%;">Location</th>
+          <th scope="col" style="width: 10%;">Capacity</th>
+          <th scope="col" style="width: 15%;">Price (TZS)</th>
+          <th scope="col" style="width: 15%;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let hall of halls; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ hall.hallName }}</td>
+          <td>{{ hall.location }}</td>
+          <td>{{ hall.capacity }}</td>
+          <td>{{ hall.price | number:'1.0-0' }}</td>
+          <td>
+            <button
+              class="btn btn-sm btn-outline-primary me-2"
+              (click)="startEdit(hall)"
+            >
+              Edit
+            </button>
+            <button
+              class="btn btn-sm btn-outline-danger"
+              (click)="deleteHall(hall.hallId)"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noHalls>
+    <div class="alert alert-warning text-center">
+      No halls found. Please add new halls.
+    </div>
+  </ng-template>
+</div>

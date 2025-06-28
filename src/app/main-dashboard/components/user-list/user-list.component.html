@@ -1,0 +1,132 @@
+<div class="container mt-4">
+  <h3 class="mb-4 text-primary">User List</h3>
+
+  <!-- ADD USER FORM -->
+<form (ngSubmit)="addUser()" #userForm="ngForm" class="mb-4">
+  <div class="row g-3 align-items-center">
+
+    <div class="col-auto">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Full Name"
+        [(ngModel)]="newUser.fullName"
+        name="fullName"
+        required
+        #fullName="ngModel"
+      />
+      <div class="text-danger" *ngIf="fullName.invalid && fullName.touched">
+        Full name is required.
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <input
+        type="email"
+        class="form-control"
+        placeholder="Email"
+        [(ngModel)]="newUser.email"
+        name="email"
+        required
+        email
+        #email="ngModel"
+      />
+      <div class="text-danger" *ngIf="email.invalid && email.touched">
+        Valid email is required.
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Phone"
+        [(ngModel)]="newUser.phone"
+        name="phone"
+        required
+        #phone="ngModel"
+      />
+      <div class="text-danger" *ngIf="phone.invalid && phone.touched">
+        Phone is required.
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <input
+        type="password"
+        class="form-control"
+        placeholder="Password"
+        [(ngModel)]="newUser.password"
+        name="password"
+        required
+        minlength="4"
+        #password="ngModel"
+      />
+      <div class="text-danger" *ngIf="password.invalid && password.touched">
+        Password (min 4 chars) is required.
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <select
+        class="form-select"
+        [(ngModel)]="newUser.role"
+        name="role"
+        required
+        #role="ngModel"
+      >
+        <option value="" disabled selected>Select Role</option>
+        <option value="USER">User</option>
+        <option value="ADMIN">Admin</option>
+      </select>
+      <div class="text-danger" *ngIf="role.invalid && role.touched">
+        Role is required.
+      </div>
+    </div>
+
+    <div class="col-auto">
+      <button type="submit" class="btn btn-success" [disabled]="userForm.invalid">
+  {{ editingUserId === null ? 'Add User' : 'Update User' }}
+</button>
+
+<button type="button" class="btn btn-secondary ms-2" *ngIf="editingUserId !== null" (click)="resetForm()">
+  Cancel
+</button>
+
+    </div>
+  </div>
+</form>
+
+  <!-- User List Table -->
+  <div *ngIf="users.length > 0; else noUsers">
+    <table class="table table-hover table-bordered">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Role</th>
+          <th>Actions</th> <!-- Buttons za Edit/Delete -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ user.fullName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.role }}</td>
+          <td>
+            <button class="btn btn-sm btn-primary me-2" (click)="editUser(user)">Edit</button>
+            <button class="btn btn-sm btn-danger" (click)="deleteUser(user.userId!)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noUsers>
+    <div class="alert alert-warning">No users found.</div>
+  </ng-template>
+</div>

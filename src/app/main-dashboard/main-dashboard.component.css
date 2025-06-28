@@ -1,0 +1,20 @@
+/* Container ya main-dashboard: d-flex inafanya sidebar na content kuwa pembeni-pembeni */
+:host {
+  display: flex;
+  height: 100vh; /* Ukubwa wa screen nzima */
+  overflow: hidden; /* Kuondoa scroll isiyohitajika */
+}
+
+/* Main content iweze kuchukua nafasi yote inayobaki */
+.flex-grow-1 {
+  background-color: #f8f9fa; /* Rangi nyepesi ya background */
+  height: 100vh;
+  overflow-y: auto; /* Iwe na scroll endapo content inazidi */
+  transition: margin-left 0.3s ease;
+  padding: 1rem;
+}
+
+/* (Optional) unaweza kuongeza style ya shadow ukitaka */
+.flex-grow-1 {
+  box-shadow: inset 0 0 10px rgb(0 0 0 / 0.05);
+}

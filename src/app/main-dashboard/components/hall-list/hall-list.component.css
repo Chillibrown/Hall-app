@@ -1,0 +1,55 @@
+/* Card‐style container */
+.container {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Heading */
+h3 {
+  font-weight: 600;
+}
+
+/* Table styling */
+.table th,
+.table td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table th {
+  background-color: #e3f2fd;
+}
+
+/* Empty state alert */
+.alert {
+  font-size: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+/* Invalid fields get red border */
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+/* Smaller error text */
+.text-danger {
+  font-size: 0.875rem;
+}
+
+/* Make all form controls fill their bootstrap column */
+.row.g-3 .form-control,
+.row.g-3 .form-select {
+  width: 100%;        /* Always span full column width */
+  box-sizing: border-box;
+}
+
+/* Remove previous min/max overrides */
+input.form-control,
+select.form-select {
+  min-width: unset;
+  max-width: unset;
+}

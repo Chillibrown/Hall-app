@@ -1,0 +1,13 @@
+<div class="d-flex">
+  <app-sidebar
+    [isExpanded]="isSidebarExpanded"
+    (toggle)="toggleSidebar()"
+  ></app-sidebar>
+
+  <div
+    class="flex-grow-1 p-4"
+    [style.marginLeft.px]="isSidebarExpanded ? 220 : 60"
+  >
+    <router-outlet></router-outlet>
+  </div>
+</div>

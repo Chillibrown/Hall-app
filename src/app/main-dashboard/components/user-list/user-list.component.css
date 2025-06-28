@@ -1,0 +1,26 @@
+.container {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+h3 {
+  font-weight: 600;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table th {
+  background-color: #e3f2fd;
+}
+
+.alert {
+  font-size: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}

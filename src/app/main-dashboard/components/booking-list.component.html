@@ -1,0 +1,167 @@
+<div class="container mt-4">
+  <h3 class="mb-4 text-primary">Booking List</h3>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="text-center mb-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger text-center">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Add Booking Button -->
+  <div class="mb-3">
+    <button
+      class="btn btn-success"
+      (click)="startAdd()"
+      *ngIf="!isAdding && !selectedBooking"
+    >
+      Add New Booking
+    </button>
+  </div>
+
+  <!-- Add Booking Form -->
+  <div
+    *ngIf="isAdding"
+    class="mb-4 border p-3 rounded bg-light"
+  >
+    <h5>Add New Booking</h5>
+
+    <label for="addUserId" class="form-label">User ID</label>
+    <input
+      id="addUserId"
+      type="number"
+      class="form-control mb-3"
+      [(ngModel)]="newBooking.user.userId"
+      placeholder="Enter user ID"
+    />
+
+    <label for="addHallId" class="form-label">Hall ID</label>
+    <input
+      id="addHallId"
+      type="number"
+      class="form-control mb-3"
+      [(ngModel)]="newBooking.hall.hallId"
+      placeholder="Enter hall ID"
+    />
+
+    <label for="addBookingDate" class="form-label">Booking Date</label>
+    <input
+      id="addBookingDate"
+      type="date"
+      class="form-control mb-3"
+      [(ngModel)]="newBooking.bookingDate"
+    />
+
+    <label for="addStatus" class="form-label">Status</label>
+    <select
+      id="addStatus"
+      class="form-select mb-3"
+      [(ngModel)]="newBooking.status"
+    >
+      <option [value]="true">Confirmed</option>
+      <option [value]="false">Pending</option>
+    </select>
+
+    <button
+      class="btn btn-primary me-2"
+      (click)="saveNewBooking()"
+    >
+      Save
+    </button>
+    <button
+      class="btn btn-secondary"
+      (click)="cancelAdd()"
+    >
+      Cancel
+    </button>
+  </div>
+
+  <!-- Edit Booking Form -->
+  <div *ngIf="selectedBooking" class="mb-4 border p-3 rounded bg-light">
+    <h5>Edit Booking ID: {{ selectedBooking.bookingId }}</h5>
+
+    <label for="bookingDate" class="form-label">Booking Date</label>
+    <input
+      id="bookingDate"
+      type="date"
+      class="form-control mb-3"
+      [(ngModel)]="selectedBooking.bookingDate"
+    />
+
+    <label for="status" class="form-label">Status</label>
+    <select
+      id="status"
+      class="form-select mb-3"
+      [(ngModel)]="selectedBooking.status"
+    >
+      <option [value]="true">Confirmed</option>
+      <option [value]="false">Pending</option>
+    </select>
+
+    <button class="btn btn-primary me-2" (click)="saveEdit()">Save</button>
+    <button class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+  </div>
+
+  <!-- Table of Bookings -->
+  <div *ngIf="!loading && bookings.length > 0">
+    <table class="table table-hover table-bordered">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>User</th>
+          <th>Hall</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of bookings; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ booking.user.fullName || 'N/A' }}</td>
+          <td>{{ booking.hall.hallName || 'N/A' }}</td>
+          <td>{{ formatDate(booking.bookingDate) }}</td>
+          <td>
+            <span
+              [ngClass]="{
+                'badge bg-success': booking.status,
+                'badge bg-warning text-dark': !booking.status
+              }"
+            >
+              {{ getStatusLabel(booking.status) }}
+            </span>
+          </td>
+          <td>
+            <button
+              class="btn btn-sm btn-outline-primary me-2"
+              (click)="editBooking(booking)"
+              [disabled]="isAdding"
+            >
+              Edit
+            </button>
+            <button
+              class="btn btn-sm btn-outline-danger"
+              (click)="deleteBooking(booking.bookingId)"
+              [disabled]="isAdding"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- No Bookings Found -->
+  <div
+    *ngIf="!loading && bookings.length === 0 && !errorMessage"
+    class="alert alert-warning text-center"
+  >
+    No bookings found.
+  </div>
+</div>

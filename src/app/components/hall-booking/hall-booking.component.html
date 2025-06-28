@@ -1,0 +1,48 @@
+<div class="container mt-4">
+  <h2 class="mb-4 text-primary">Available Halls</h2>
+
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let hall of halls">
+      <div class="card p-4 shadow text-white" style="background-color: #005f73; border-radius: 20px;">
+        <h4>🚞 {{ hall.hallName }}</h4>
+        <p>👥 Capacity: {{ hall.capacity }}</p>
+        <p>💰 Price: {{ hall.price | number:'1.2-2' }} TZS</p>
+
+        <div class="d-flex align-items-center mb-2">
+          <i class="fas fa-map-marker-alt me-2"></i>
+          <span>{{ hall.location }}</span>
+        </div>
+        <button
+          class="btn btn-warning mt-2"
+          style="font-weight: bold;"
+          (click)="selectHallForBooking(hall.hallId)"
+        >
+          {{ expandedHallId === hall.hallId ? 'Close' : 'Book Now' }}
+        </button>
+
+        <!-- Booking Form -->
+        <div *ngIf="expandedHallId === hall.hallId" class="mt-3 bg-light p-3 rounded shadow-sm">
+          <label class="form-label">Select Booking Date:</label>
+          <input
+            type="date"
+            class="form-control mb-2"
+            [(ngModel)]="bookingDate"
+            name="bookingDate"
+          />
+
+          <button class="btn btn-info text-white w-100" (click)="createBooking()">
+            ✅ Confirm Booking
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feedback -->
+  <div *ngIf="successMessage" class="alert mt-4" style="background-color: #06d6a0; color: white; font-weight: bold;">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="alert mt-4" style="background-color: #ef476f; color: white; font-weight: bold;">
+    {{ errorMessage }}
+  </div>
+</div>

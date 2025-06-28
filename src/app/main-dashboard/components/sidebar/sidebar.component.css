@@ -1,0 +1,52 @@
+.sidebar {
+  background-color: #0d6efd; /* Bootstrap primary blue */
+}
+
+.sidebar {
+  width: 60px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  z-index: 1030;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+}
+
+.sidebar.expanded {
+  width: 220px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  align-items: flex-start;
+}
+
+/* Andika styles nyingine kama toggle-btn, nav-link, etc. hapa pia */
+
+
+.toggle-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 0;
+  margin-bottom: 1rem;
+}
+
+.nav-link {
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  border-radius: 0.375rem;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.nav-link i {
+  margin-right: 8px;
+}

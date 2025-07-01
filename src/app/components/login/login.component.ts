@@ -35,7 +35,7 @@ export class LoginComponent {
         if (response.role === 'ADMIN') {
           this.router.navigate(['/dashboard']);
         } else {
-          this.router.navigate(['/halls']);
+          this.router.navigate(['/dashboard/hall-booking']);
         }
       },
       error: (err) => {

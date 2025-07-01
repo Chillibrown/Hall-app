@@ -8,9 +8,16 @@
   </button>
 
   <nav class="nav flex-column mt-4" *ngIf="isExpanded">
-    <a routerLink="manage-hall" class="nav-link text-white" routerLinkActive="active">Available Halls</a>
-    <a routerLink="hall-booking" class="nav-link text-white" routerLinkActive="active">Book Hall</a>
-    <a routerLink="booking-list" class="nav-link text-white" routerLinkActive="active">Booking List</a>
-    <a routerLink="users" class="nav-link text-white" routerLinkActive="active">User List</a>
-  </nav>
+  <!-- Common Links for All -->
+  <a routerLink="hall-booking" class="nav-link text-white" routerLinkActive="active">Book Hall</a>
+
+  <!-- Admin Only -->
+  <a *ngIf="isAdmin()" routerLink="booking-list" class="nav-link text-white" routerLinkActive="active">All Bookings</a>
+  <a *ngIf="isAdmin()" routerLink="users" class="nav-link text-white" routerLinkActive="active">Manage Users</a>
+  <a *ngIf="isAdmin()" a routerLink="manage-hall" class="nav-link text-white" routerLinkActive="active">Manage Halls</a>
+
+  <!-- User Only -->
+  <a *ngIf="isUser()" routerLink="booking-list" class="nav-link text-white" routerLinkActive="active">My Bookings</a>
+</nav>
+
 </div>

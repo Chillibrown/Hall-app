@@ -1,154 +1,40 @@
 <div class="container mt-4">
-  <h3 class="mb-4 text-primary">Booking List</h3>
+  <h2 class="text-center text-primary mb-4">📅 Booking List</h2>
 
-  <!-- Loading Spinner -->
-  <div *ngIf="loading" class="text-center mb-3">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p>Loading bookings...</p>
   </div>
 
-  <!-- Error Message -->
-  <div *ngIf="errorMessage" class="alert alert-danger text-center">
+  <div *ngIf="errorMessage" class="alert alert-danger">
     {{ errorMessage }}
   </div>
 
-  <!-- Add Booking Button -->
-  <div class="mb-3">
-    <button
-      class="btn btn-success"
-      (click)="startAdd()"
-      *ngIf="!isAdding && !selectedBooking"
-    >
-      Add New Booking
-    </button>
-  </div>
-
-  <!-- Add Booking Form -->
-  <div
-    *ngIf="isAdding"
-    class="mb-4 border p-3 rounded bg-light"
-  >
-    <h5>Add New Booking</h5>
-
-    <label for="addUserId" class="form-label">User ID</label>
-    <input
-      id="addUserId"
-      type="number"
-      class="form-control mb-3"
-      [(ngModel)]="newBooking.user.userId"
-      placeholder="Enter user ID"
-    />
-
-    <label for="addHallId" class="form-label">Hall ID</label>
-    <input
-      id="addHallId"
-      type="number"
-      class="form-control mb-3"
-      [(ngModel)]="newBooking.hall.hallId"
-      placeholder="Enter hall ID"
-    />
-
-    <label for="addBookingDate" class="form-label">Booking Date</label>
-    <input
-      id="addBookingDate"
-      type="date"
-      class="form-control mb-3"
-      [(ngModel)]="newBooking.bookingDate"
-    />
-
-    <label for="addStatus" class="form-label">Status</label>
-    <select
-      id="addStatus"
-      class="form-select mb-3"
-      [(ngModel)]="newBooking.status"
-    >
-      <option [value]="true">Confirmed</option>
-      <option [value]="false">Pending</option>
-    </select>
-
-    <button
-      class="btn btn-primary me-2"
-      (click)="saveNewBooking()"
-    >
-      Save
-    </button>
-    <button
-      class="btn btn-secondary"
-      (click)="cancelAdd()"
-    >
-      Cancel
-    </button>
-  </div>
-
-  <!-- Edit Booking Form -->
-  <div *ngIf="selectedBooking" class="mb-4 border p-3 rounded bg-light">
-    <h5>Edit Booking ID: {{ selectedBooking.bookingId }}</h5>
-
-    <label for="bookingDate" class="form-label">Booking Date</label>
-    <input
-      id="bookingDate"
-      type="date"
-      class="form-control mb-3"
-      [(ngModel)]="selectedBooking.bookingDate"
-    />
-
-    <label for="status" class="form-label">Status</label>
-    <select
-      id="status"
-      class="form-select mb-3"
-      [(ngModel)]="selectedBooking.status"
-    >
-      <option [value]="true">Confirmed</option>
-      <option [value]="false">Pending</option>
-    </select>
-
-    <button class="btn btn-primary me-2" (click)="saveEdit()">Save</button>
-    <button class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
-  </div>
-
-  <!-- Table of Bookings -->
-  <div *ngIf="!loading && bookings.length > 0">
-    <table class="table table-hover table-bordered">
-      <thead class="table-light">
+  <!-- Booking Table -->
+  <div *ngIf="!loading && bookings.length > 0" class="table-responsive">
+    <table class="table table-bordered table-hover table-striped">
+      <thead class="table-primary">
         <tr>
           <th>#</th>
-          <th>User</th>
           <th>Hall</th>
           <th>Date</th>
           <th>Status</th>
-          <th>Actions</th>
+          <th>User</th>
+          <th *ngIf="role === 'ADMIN'">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let booking of bookings; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ booking.user.fullName || 'N/A' }}</td>
-          <td>{{ booking.hall.hallName || 'N/A' }}</td>
+          <td>{{ booking.hall.hallName }}</td>
           <td>{{ formatDate(booking.bookingDate) }}</td>
-          <td>
-            <span
-              [ngClass]="{
-                'badge bg-success': booking.status,
-                'badge bg-warning text-dark': !booking.status
-              }"
-            >
-              {{ getStatusLabel(booking.status) }}
-            </span>
-          </td>
-          <td>
-            <button
-              class="btn btn-sm btn-outline-primary me-2"
-              (click)="editBooking(booking)"
-              [disabled]="isAdding"
-            >
+          <td>{{ getStatusLabel(booking.status) }}</td>
+          <td>{{ booking.user.fullName }}</td>
+          <td *ngIf="role === 'ADMIN'">
+            <button class="btn btn-sm btn-warning me-2" (click)="editBooking(booking)">
               Edit
             </button>
-            <button
-              class="btn btn-sm btn-outline-danger"
-              (click)="deleteBooking(booking.bookingId)"
-              [disabled]="isAdding"
-            >
+            <button class="btn btn-sm btn-danger" (click)="deleteBooking(booking.bookingId)">
               Delete
             </button>
           </td>
@@ -157,11 +43,65 @@
     </table>
   </div>
 
-  <!-- No Bookings Found -->
-  <div
-    *ngIf="!loading && bookings.length === 0 && !errorMessage"
-    class="alert alert-warning text-center"
-  >
-    No bookings found.
+  <div *ngIf="!loading && bookings.length === 0" class="text-center text-muted">
+    <p>No bookings found.</p>
+  </div>
+
+  <!-- Edit/Add Form -->
+  <div *ngIf="isAdding || selectedBooking" class="card mt-4 p-3">
+    <h4>{{ isAdding ? '➕ Add New Booking' : '✏️ Edit Booking' }}</h4>
+    <form (ngSubmit)="isAdding ? saveNewBooking() : saveEdit()">
+      <div class="mb-3">
+        <label for="hallId" class="form-label">Hall ID</label>
+        <input
+          type="number"
+          id="hallId"
+          class="form-control"
+          [(ngModel)]="hallId"
+          name="hallId"
+          required
+          [readonly]="!isAdding"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="bookingDate" class="form-label">Booking Date</label>
+        <input
+          type="date"
+          id="bookingDate"
+          class="form-control"
+          [(ngModel)]="bookingDate"
+          name="bookingDate"
+          required
+        />
+      </div>
+
+      <div class="form-check mb-3">
+        <input
+          type="checkbox"
+          id="status"
+          class="form-check-input"
+          [(ngModel)]="status"
+          name="status"
+        />
+        <label for="status" class="form-check-label">Confirmed</label>
+      </div>
+
+      <button type="submit" class="btn btn-success me-2">
+        {{ isAdding ? 'Add Booking' : 'Save Changes' }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="isAdding ? cancelAdd() : cancelEdit()"
+      >
+        Cancel
+      </button>
+    </form>
+  </div>
+
+  <!-- Add Booking Button (Only for ADMIN or future expansion) -->
+  <div *ngIf="role === 'ADMIN'" class="mt-4">
+    <button class="btn btn-outline-primary" (click)="startAdd()">Add Booking</button>
   </div>
 </div>

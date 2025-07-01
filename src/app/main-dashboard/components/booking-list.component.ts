@@ -17,7 +17,6 @@ export class BookingListComponent implements OnInit {
   errorMessage: string = '';
 
   selectedBooking: Booking | null = null;
-
   isAdding: boolean = false;
   newBooking: Booking = this.emptyBooking();
 
@@ -145,5 +144,43 @@ export class BookingListComponent implements OnInit {
         this.errorMessage = 'Failed to add booking: ' + (err.message || err.statusText);
       },
     });
+  }
+
+  // ✅ Getter & Setter for ngModel-safe access
+
+  get bookingDate(): string {
+    return this.isAdding ? this.newBooking.bookingDate : this.selectedBooking?.bookingDate ?? '';
+  }
+
+  set bookingDate(value: string) {
+    if (this.isAdding) {
+      this.newBooking.bookingDate = value;
+    } else if (this.selectedBooking) {
+      this.selectedBooking.bookingDate = value;
+    }
+  }
+
+  get hallId(): number {
+    return this.isAdding ? this.newBooking.hall.hallId : this.selectedBooking?.hall.hallId ?? 0;
+  }
+
+  set hallId(value: number) {
+    if (this.isAdding) {
+      this.newBooking.hall.hallId = value;
+    } else if (this.selectedBooking) {
+      this.selectedBooking.hall.hallId = value;
+    }
+  }
+
+  get status(): boolean {
+    return this.isAdding ? this.newBooking.status : this.selectedBooking?.status ?? false;
+  }
+
+  set status(value: boolean) {
+    if (this.isAdding) {
+      this.newBooking.status = value;
+    } else if (this.selectedBooking) {
+      this.selectedBooking.status = value;
+    }
   }
 }

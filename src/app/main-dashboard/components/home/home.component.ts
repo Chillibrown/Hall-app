@@ -11,11 +11,10 @@ import { CommonModule } from '@angular/common';
 })
 export class HomeComponent implements OnInit {
   username: string = 'Guest';
+  role: string = 'USER';
 
   ngOnInit(): void {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const user = localStorage.getItem('username');
-      this.username = user ? user : 'Guest';
-    }
+    this.username = localStorage.getItem('username') || 'Guest';
+    this.role = localStorage.getItem('role') || 'USER';
   }
 }

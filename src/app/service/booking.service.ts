@@ -23,7 +23,7 @@ export interface Booking {
   bookingId?: number;
   user: User;
   hall: Hall;
-  bookingDate: string; // ISO date string (yyyy-MM-dd)
+  bookingDate: string; //(yyyy-MM-dd)
   status: boolean;
 }
 
@@ -35,33 +35,33 @@ export class BookingService {
 
   constructor(private http: HttpClient) {}
 
-  // Get all bookings (for admin)
+  // Get all bookings (admin)
   getAllBookings(): Observable<Booking[]> {
     return this.http.get<Booking[]>(`${this.apiUrl}/all`);
   }
 
-  // Get bookings by User ID (for normal user)
+  // Get bookings by User ID (normal user)
   getBookingsByUser(userId: number): Observable<Booking[]> {
     return this.http.get<Booking[]>(`${this.apiUrl}/user/${userId}`);
   }
 
-  // Other methods (add, update, delete, get by ID) remain unchanged...
-
+  // Get booking by ID
   getBookingById(id: number): Observable<Booking> {
     return this.http.get<Booking>(`${this.apiUrl}/find/${id}`);
   }
 
+  // Add booking
   addBooking(booking: Booking): Observable<Booking> {
     return this.http.post<Booking>(`${this.apiUrl}/add`, booking);
   }
 
+  // Update booking
   updateBooking(id: number, booking: Booking): Observable<Booking> {
     return this.http.put<Booking>(`${this.apiUrl}/update/${id}`, booking);
   }
 
+  // Delete booking
   deleteBooking(id: number): Observable<string> {
-    return this.http.delete(`${this.apiUrl}/delete/${id}`, {
-      responseType: 'text',
-    });
+    return this.http.delete(`${this.apiUrl}/delete/${id}`, { responseType: 'text' });
   }
 }

@@ -1,15 +1,49 @@
 <div class="container mt-5">
   <div class="text-center">
-    <h2 class="fw-bold text-primary mb-3">👋 Welcome, {{ username }}!</h2>
-    <p class="lead">Manage your hall bookings with ease and convenience.</p>
+    <h1 class="fw-bold text-primary mb-3">🏛 Hall Booking System</h1>
+    <h4 class="mb-2">👋 Welcome, {{ username }}!</h4>
+    <p class="lead text-muted">Easily manage and book halls for your events.</p>
+  </div>
 
-    <div class="mt-4">
-      <a routerLink="/dashboard/halls" class="btn btn-outline-primary btn-lg me-3">
-        View Available Halls
-      </a>
-      <a routerLink="/dashboard/users" class="btn btn-outline-secondary btn-lg">
-        View Users
-      </a>
-    </div>
+  <hr class="my-4" />
+
+  <div class="row justify-content-center">
+    <!-- Admin Options -->
+    <ng-container *ngIf="role === 'ADMIN'; else userLinks">
+      <div class="col-md-4 mb-3">
+        <a routerLink="/manage-hall" class="card text-center text-decoration-none shadow-sm p-4 h-100">
+          <h5 class="text-primary">🏟 Manage Halls</h5>
+          <p class="text-muted">Add, edit, or remove halls from the system.</p>
+        </a>
+      </div>
+      <div class="col-md-4 mb-3">
+        <a routerLink="/users" class="card text-center text-decoration-none shadow-sm p-4 h-100">
+          <h5 class="text-secondary">👥 Manage Users</h5>
+          <p class="text-muted">View and manage registered users.</p>
+        </a>
+      </div>
+      <div class="col-md-4 mb-3">
+        <a routerLink="/booking-list" class="card text-center text-decoration-none shadow-sm p-4 h-100">
+          <h5 class="text-success">📋 All Bookings</h5>
+          <p class="text-muted">View and manage all booking records.</p>
+        </a>
+      </div>
+    </ng-container>
+
+    <!-- User Options -->
+    <ng-template #userLinks>
+      <div class="col-md-6 mb-3">
+        <a routerLink="/manage-hall" class="card text-center text-decoration-none shadow-sm p-4 h-100">
+          <h5 class="text-primary">🏛 View Available Halls</h5>
+          <p class="text-muted">Explore available halls for your event.</p>
+        </a>
+      </div>
+      <div class="col-md-6 mb-3">
+        <a routerLink="/booking-list" class="card text-center text-decoration-none shadow-sm p-4 h-100">
+          <h5 class="text-success">📖 My Bookings</h5>
+          <p class="text-muted">Check your hall booking records.</p>
+        </a>
+      </div>
+    </ng-template>
   </div>
 </div>

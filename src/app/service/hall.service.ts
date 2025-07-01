@@ -15,7 +15,7 @@ export interface Hall {
   providedIn: 'root'
 })
 export class HallService {
-  private apiUrl = 'http://localhost:9095/hall';  // URL yako ya backend
+  private apiUrl = 'http://localhost:9095/hall';
 
   constructor(private http: HttpClient) {}
 

@@ -13,7 +13,21 @@ export class SidebarComponent {
   @Input() isExpanded = false;
   @Output() toggle = new EventEmitter<void>();
 
+  role: string | null = '';
+
+  constructor() {
+    this.role = localStorage.getItem('role');
+  }
+
   toggleSidebar() {
     this.toggle.emit();
+  }
+
+  isAdmin(): boolean {
+    return this.role === 'ADMIN';
+  }
+
+  isUser(): boolean {
+    return this.role === 'USER';
   }
 }

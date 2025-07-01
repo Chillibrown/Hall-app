@@ -73,7 +73,7 @@ export class HallBookingComponent implements OnInit {
       bookingDate: this.bookingDate,
       status: this.bookingStatus,
       user: {
-        userId: 1, // replace with real auth userId later
+        userId: Number(localStorage.getItem('userId')), 
         fullName: '',
         email: '',
         phone: 0
